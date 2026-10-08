@@ -10,7 +10,16 @@ verdicts = []
 KEYWORDS = ["urgent", "verify", "suspended", "password", "expires", "act now",
             "congratulations", "winner", "claim", "immediately", "gift card"]
 
-def check_mail(folder="data/samples", flagged=[]):
+W_KEYWORD = 1
+W_IP_LINK = 3
+W_PUNYCODE_LINK = 3
+W_BRAND_MISMATCH = 3
+W_AUTH_FAIL = 2
+W_REPLY_TO_MISMATCH = 2
+PHISHING_THRESHOLD = 5
+SUSPICIOUS_THRESHOLD = 3
+
+def check_mail(folder, flagged=[]):
     files = os.listdir(folder)
     for fn in files:
         if not fn.endswith(".eml"):
@@ -71,7 +80,7 @@ def check_mail(folder="data/samples", flagged=[]):
     print("flagged:", flagged)
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        check_mail(sys.argv[1])
-    else:
-        check_mail()
+    if len(sys.argv) != 2:
+        print("You must pass a folder path as argument")
+        sys.exit()
+    check_mail(sys.argv[1])
